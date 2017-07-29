@@ -1,0 +1,40 @@
+#coding: utf-8
+import numpy as np
+import ActivationFunctions
+
+#   Neural Network Showcase
+#   mpskex@github
+#   2017
+
+#   Actually Neural Network is a Computable Graph
+#   with high dimensional correlationship as a system
+
+#   Here introduced a simple structure of neurons
+#   Let's see how these compute unit works
+
+class Neuron(object):
+    def __init__(self, fan_in):
+        #   Initializing the weights
+        self.W = 0.01 * np.random.rand(fan_in)
+        #   setting bias for neuron
+        #   default is zero
+        self.b = 0
+        #   create activation function
+        self.AF = ActivationFunctions.AF_ReLU()
+    def forward(self, X):
+        #   Do the forward computing
+        self.X = X
+        self.Y = np.dot(self.W, self.X.T) + self.b
+        return self.AF.forward(self.Y)
+    def backward(self, dG):
+        #   Do the Back-Prop computing
+        #   Using chain rule
+        #   for each dG/dXi
+        #   the local gradient is 
+        #   W it self times G
+        return self.AF.backward(dG) * self.W
+
+if __name__ == '__main__':
+    n = Neuron(2)
+    print n.forward(np.array([1, 2]))
+    print n.backward(0.11)
