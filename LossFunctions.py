@@ -6,7 +6,8 @@ import numpy as np
 #   mpskex@github
 #   2017
 
-#   TO-DO
+#   Loss Functions
+#   SVM and Softmax is common in loss functions
 class LossFunction(object):
     def __init__(self):
         pass
