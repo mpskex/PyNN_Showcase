@@ -22,6 +22,8 @@ class Neuron(object):
         self.b = 0
         #   create activation function
         self.__init_ActivationFunction__()
+        #   create update function
+        self.__init_UpdateFunction__()
     def __init_ActivationFunction__(self):
         #   Here we can redefine by redeclare different activation functions
         self.AF = ActivationFunctions.AF_ReLU()
@@ -33,14 +35,14 @@ class Neuron(object):
         self.X = X
         self.Y = np.dot(self.W, self.X.T) + self.b
         return self.AF.forward(self.Y)
-    def backward(self, dG):
+    def backward(self, dG, lr):
         #   Do the Back-Prop computing
         #   Using chain rule
         #   for each dG/dXi
         #   the local gradient is 
         #   W it self times G
         out = self.AF.backward(dG) * self.W
-        
+        self.W += self.UF.update(out, lr)
         return out
 
 class myNr(Neuron):
@@ -50,6 +52,6 @@ class myNr(Neuron):
         self.UF = UpdateFunctions.UF_Momentum()
 
 if __name__ == '__main__':
-    n = Neuron(2)
+    n = Neuron(2, 0.01)
     print n.forward(np.array([1, 2]))
     print n.backward(0.11)

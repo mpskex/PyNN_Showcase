@@ -20,17 +20,17 @@ class FullyConnectedLayer(object):
     def __init_neurons__(self):
         #   We can custom our own neurons
         for i in range(self.size):
-            self.neurons.append(nr.Neuron(self.fan_in))
+            self.neurons.append(nr.Neuron(self.fan_in, self.lr))
     def forward(self, X):
         #   We collect the whole layer output as a vector
         out = np.zeros(self.size, np.float)
         for i in range(self.size):
             out[i] = self.neurons[i].forward(X)
         return out
-    def backward(self, dG):
+    def backward(self, dG, lr):
         dX = np.zeros(self.fan_in, np.float)
         for i in range(self.size):
-            dX += self.neurons[i].backward(dG[i])
+            dX += self.neurons[i].backward(dG[i], lr)
         return dX
     def show_weights(self):
         print "layer weights:"
