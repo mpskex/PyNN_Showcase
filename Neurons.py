@@ -47,9 +47,9 @@ class Neuron(object):
 
 class myNr(Neuron):
     def __init_ActivationFunction__(self):
-        self.AF = ActivationFunctions.AF_ReLU()
+        self.AF = ActivationFunctions.AF_tanh()
     def __init_UpdateFunction__(self):
-        self.UF = UpdateFunctions.UF_Momentum()
+        self.UF = UpdateFunctions.UF_SGD()
 
 if __name__ == '__main__':
     n = Neuron(2, 0.01)

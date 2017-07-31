@@ -17,19 +17,17 @@ import numpy as np
 #   the score vector is caculated in equation score = W * Xj
 
 class LossFunction(object):
-    def loss(X, y, W):
+    def loss(self, scores, label):
         pass
 
-class LF_SVM(LossFunction):
-    def loss(X, y, W):
-        scores = W.dot(x)
-        margins = np.maxium(0, scores - score[y] + 1)
-        margins[y] = 0
+class LF_Hinge(LossFunction):
+    def loss(self, scores, label):
+        margins = np.maximum(0, scores - scores[label] + 1)
+        margins[label] = 0
         return np.sum(margins)
 
 class LF_Softmax(LossFunction):
-    def loss(X, y, W):
-        scores = W.dot(x)
+    def loss(self, scores, label):
         sum = np.sum(np.exp(scores))
-        s_yi = math.exp(scores[y])
+        s_yi = math.exp(scores[label])
         return - math.log(s_yi / sum)

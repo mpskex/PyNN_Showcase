@@ -1,9 +1,11 @@
 #!/usr/bin/python
 #coding: utf-8
 
-import Func
-import Porn
+import numpy as np
 
+#   Neural Network Showcase
+#   mpskex@github
+#   2017
 
 def SaveAsMat(label, VecList, filename):
     with open(filename, 'w') as f:
@@ -28,6 +30,6 @@ def LoadMat(filename):
             for elem in line.split(' ')[1:]:
                 if elem != '\n':
                     FeatureVec.append(float(elem.split(':')[-1]))
-            VecList.append(FeatureVec)
+            VecList.append(np.array(FeatureVec))
         f.close()
-    return label, VecList
+    return np.array(label), VecList

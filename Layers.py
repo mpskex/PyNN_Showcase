@@ -11,6 +11,7 @@ import Neurons  as nr
 #   dX, dG are vectors in backward propogation
 #   We define here a Layer object
 
+#   Fully Connected Layer
 class FullyConnectedLayer(object):
     def __init__(self, size, fan_in):
         self.size = size
@@ -20,7 +21,7 @@ class FullyConnectedLayer(object):
     def __init_neurons__(self):
         #   We can custom our own neurons
         for i in range(self.size):
-            self.neurons.append(nr.Neuron(self.fan_in, self.lr))
+            self.neurons.append(nr.Neuron(self.fan_in))
     def forward(self, X):
         #   We collect the whole layer output as a vector
         out = np.zeros(self.size, np.float)
@@ -33,7 +34,6 @@ class FullyConnectedLayer(object):
             dX += self.neurons[i].backward(dG[i], lr)
         return dX
     def show_weights(self):
-        print "layer weights:"
         for i in range(self.size):
             print self.neurons[i].W
 
@@ -54,10 +54,12 @@ class ConvLayer(object):
     def show_kernel(self):
         pass
         
+
+
 if __name__ == '__main__':
     FC = FullyConnectedLayer(2,2)
     FC.show_weights()
     print "forward:"
     print FC.forward(np.array([1, 1]))
     print "backward:"
-    print FC.backward(np.array([0.1, 0.1]))
+    print FC.backward(np.array([0.1, 0.1]),0.1)
