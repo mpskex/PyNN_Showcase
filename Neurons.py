@@ -20,6 +20,9 @@ class Neuron(object):
         #   default is zero
         self.b = 0
         #   create activation function
+        self.__init_ActivationFunction__()
+    def __init_ActivationFunction__(self):
+        #   Here we can redefine by redeclare different activation functions
         self.AF = ActivationFunctions.AF_ReLU()
     def forward(self, X):
         #   Do the forward computing
