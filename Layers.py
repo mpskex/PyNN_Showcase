@@ -11,15 +11,16 @@ import Neurons  as nr
 #   dX, dG are vectors in backward propogation
 #   We define here a Layer object
 
-class FullyConnectedLayers(object):
+class FullyConnectedLayer(object):
     def __init__(self, size, fan_in):
         self.size = size
         self.fan_in = fan_in
         self.neurons = []
         self.__init_neurons__()
     def __init_neurons__(self):
+        #   We can custom our own neurons
         for i in range(self.size):
-            self.neurons.append(nr.Neuron(fan_in))
+            self.neurons.append(nr.Neuron(self.fan_in))
     def forward(self, X):
         #   We collect the whole layer output as a vector
         out = np.zeros(self.size, np.float)
@@ -35,9 +36,26 @@ class FullyConnectedLayers(object):
         print "layer weights:"
         for i in range(self.size):
             print self.neurons[i].W
+
+class myFC(FullyConnectedLayer):
+    def __init_neurons__(self):
+        for i in range(self.size):
+            self.neurons.append(nr.myNr(self.fan_in))
+
+#   TO-DO
+#   Convolutional Layer
+class ConvLayer(object):
+    def __init__(self):
+        pass
+    def forward(self, X):
+        pass
+    def backward(self, dG):
+        pass
+    def show_kernel(self):
+        pass
         
 if __name__ == '__main__':
-    FC = FullyConnectedLayers(2,2)
+    FC = FullyConnectedLayer(2,2)
     FC.show_weights()
     print "forward:"
     print FC.forward(np.array([1, 1]))

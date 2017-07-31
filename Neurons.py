@@ -1,6 +1,7 @@
 #coding: utf-8
 import numpy as np
 import ActivationFunctions
+import UpdateFunctions
 
 #   Neural Network Showcase
 #   mpskex@github
@@ -24,6 +25,9 @@ class Neuron(object):
     def __init_ActivationFunction__(self):
         #   Here we can redefine by redeclare different activation functions
         self.AF = ActivationFunctions.AF_ReLU()
+    def __init_UpdateFunction__(self):
+        #   We define a update function for weight update
+        self.UF = UpdateFunctions.UF_Momentum()
     def forward(self, X):
         #   Do the forward computing
         self.X = X
@@ -35,7 +39,15 @@ class Neuron(object):
         #   for each dG/dXi
         #   the local gradient is 
         #   W it self times G
-        return self.AF.backward(dG) * self.W
+        out = self.AF.backward(dG) * self.W
+        
+        return out
+
+class myNr(Neuron):
+    def __init_ActivationFunction__(self):
+        self.AF = ActivationFunctions.AF_ReLU()
+    def __init_UpdateFunction__(self):
+        self.UF = UpdateFunctions.UF_Momentum()
 
 if __name__ == '__main__':
     n = Neuron(2)
