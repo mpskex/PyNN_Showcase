@@ -47,11 +47,17 @@ class Neuron(object):
         self.W += self.UF.update(self.X, lr)
         return out
 
-class myNr(Neuron):
+class myNr1(Neuron):
     def __init_ActivationFunction__(self):
         self.AF = ActivationFunctions.AF_leakyReLU()
     def __init_UpdateFunction__(self):
         self.UF = UpdateFunctions.UF_SGD()
+
+class myNr2(Neuron):
+    def __init_ActivationFunction__(self):
+        self.AF = ActivationFunctions.AF_leakyReLU()
+    def __init_UpdateFunction__(self):
+        self.UF = UpdateFunctions.UF_Momentum()
 
 if __name__ == '__main__':
     n = Neuron(2)

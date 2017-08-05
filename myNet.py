@@ -7,6 +7,8 @@ import LossFunctions    as lf
 import DataGenerators   as dg
 import LoadnSave        as LoS
 
+import matplotlib.pyplot as plt
+
 #   Neural Network Showcase
 #   mpskex@github
 #   2017
@@ -28,14 +30,14 @@ class myNet(object):
         #   stack layers
         self.layers = []
         #   layer-1
-        self.layers.append(lyr.myFC(10, 5))
+        self.layers.append(lyr.FullyConnectedLayer(10, 5))
         #   layer-2
-        self.layers.append(lyr.myFC(4, 10))
+        self.layers.append(lyr.FullyConnectedLayer(4, 10))
         #   output
         #   two class classifier
-        self.layers.append(lyr.myFC(2, 4))
+        self.layers.append(lyr.FullyConnectedLayer(2, 4))
     def __init_loss_function__(self):
-        self.LF = lf.LF_Hinge()
+        self.LF = lf.LF_Softmax()
     def __update_learning_rate__(self):
         #   Constant learning rate
         self.lr = self.base_lr
@@ -67,13 +69,48 @@ class myNet(object):
             self.backward(dS, labelset[i])
         print "Loss is ", self.loss
         self.__update_learning_rate__()
+        return self.loss
     def train(self, epoch, dataset, labelset):
+        loss_stat = []
         for i in range(epoch):
             print "Epoch ", i
-            self.epoch(dataset, labelset)
+            loss_stat.append(self.epoch(dataset, labelset))
+        return loss_stat
     def show_weights(self):
         for i in self.layers:
             i.show_weights()
+
+#   SGD Solver Net
+class myNet1(myNet):
+    def __init_layers__(self):
+        #   5-10-4-2 hierachy
+        #   This is design for my Porn detector 
+        #   using pre-proc features to train this net
+        #   stack layers
+        self.layers = []
+        #   layer-1
+        self.layers.append(lyr.myFC1(10, 5))
+        #   layer-2
+        self.layers.append(lyr.myFC1(4, 10))
+        #   output
+        #   two class classifier
+        self.layers.append(lyr.myFC1(2, 4))
+
+#   Momentum Solver Net
+class myNet2(myNet):
+    def __init_layers__(self):
+        #   5-10-4-2 hierachy
+        #   This is design for my Porn detector 
+        #   using pre-proc features to train this net
+        #   stack layers
+        self.layers = []
+        #   layer-1
+        self.layers.append(lyr.myFC2(10, 5))
+        #   layer-2
+        self.layers.append(lyr.myFC2(4, 10))
+        #   output
+        #   two class classifier
+        self.layers.append(lyr.myFC2(2, 4))
 
 if __name__ == '__main__':
     '''
@@ -82,8 +119,19 @@ if __name__ == '__main__':
     print net.backward(np.array([3]))
     '''
     label, VecList = LoS.LoadMat("prob.mat")
-    net = myNet(5, lr=0.1)
-    #net.show_weights()
-    #net.epoch(VecList, label)
-    #net.show_weights()
-    net.train(100, VecList, label)
+    net1 = myNet1(5, lr=0.1)
+    stat1 = net1.train(100, VecList, label)
+    print stat1
+
+    label, VecList = LoS.LoadMat("prob.mat")
+    net2 = myNet2(5, lr=0.1)
+    stat2 = net2.train(100, VecList, label)
+    print stat2
+
+    plt.plot(range(100), stat1)
+    plt.plot(range(100), stat2)
+
+    plt.title('loss descent')
+    plt.xlabel('epoch')
+    plt.ylabel('loss')
+    plt.show()

@@ -37,10 +37,15 @@ class FullyConnectedLayer(object):
         for i in range(self.size):
             print self.neurons[i].W
 
-class myFC(FullyConnectedLayer):
+class myFC1(FullyConnectedLayer):
     def __init_neurons__(self):
         for i in range(self.size):
-            self.neurons.append(nr.myNr(self.fan_in))
+            self.neurons.append(nr.myNr1(self.fan_in))
+
+class myFC2(FullyConnectedLayer):
+    def __init_neurons__(self):
+        for i in range(self.size):
+            self.neurons.append(nr.myNr2(self.fan_in))
 
 #   TO-DO
 #   Convolutional Layer
