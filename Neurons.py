@@ -3,6 +3,8 @@ import numpy as np
 import ActivationFunctions
 import UpdateFunctions
 
+import LossFunctions    as lf
+
 #   Neural Network Showcase
 #   mpskex@github
 #   2017
@@ -29,7 +31,7 @@ class Neuron(object):
         self.AF = ActivationFunctions.AF_ReLU()
     def __init_UpdateFunction__(self):
         #   We define a update function for weight update
-        self.UF = UpdateFunctions.UF_Momentum()
+        self.UF = UpdateFunctions.UF_SGD()
     def forward(self, X):
         #   Do the forward computing
         self.X = X
@@ -42,16 +44,18 @@ class Neuron(object):
         #   the local gradient is 
         #   W it self times G
         out = self.AF.backward(dG) * self.W
-        self.W += self.UF.update(out, lr)
+        self.W += self.UF.update(self.X, lr)
         return out
 
 class myNr(Neuron):
     def __init_ActivationFunction__(self):
-        self.AF = ActivationFunctions.AF_tanh()
+        self.AF = ActivationFunctions.AF_leakyReLU()
     def __init_UpdateFunction__(self):
         self.UF = UpdateFunctions.UF_SGD()
 
 if __name__ == '__main__':
-    n = Neuron(2, 0.01)
-    print n.forward(np.array([1, 2]))
-    print n.backward(0.11)
+    n = Neuron(2)
+    print "n's weight" , n.W
+    print n.forward(np.array([1, -2]))
+    print n.backward(0.11, 0.01)
+    print "n's weight" , n.W

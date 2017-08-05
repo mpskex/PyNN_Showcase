@@ -17,17 +17,29 @@ import numpy as np
 #   the score vector is caculated in equation score = W * Xj
 
 class LossFunction(object):
-    def loss(self, scores, label):
+    def __init__(self):
+        pass
+    def forward(self, scores, label):
         pass
 
 class LF_Hinge(LossFunction):
-    def loss(self, scores, label):
-        margins = np.maximum(0, scores - scores[label] + 1)
-        margins[label] = 0
-        return np.sum(margins)
+    def forward(self, scores, label):
+        loss = 0
+        for i in range(len(scores)):
+            if i != label:
+                loss += max(0, 1 + scores[i])
+            else:
+                loss += max(0, 1 - scores[i])
+        return loss
 
 class LF_Softmax(LossFunction):
-    def loss(self, scores, label):
+    def forward(self, scores, label):
         sum = np.sum(np.exp(scores))
         s_yi = math.exp(scores[label])
         return - math.log(s_yi / sum)
+
+if __name__ == '__main__':
+    hinge = LF_Hinge()
+    softmax = LF_Softmax()
+    print "hinge loss :", hinge.forward(np.array([0.121, -0.023]), 1)
+    print "softmax loss :", softmax.forward(np.array([0.121, -0.023]), 1)

@@ -35,7 +35,7 @@ class myNet(object):
         #   two class classifier
         self.layers.append(lyr.myFC(2, 4))
     def __init_loss_function__(self):
-        self.LF = lf.LF_Softmax()
+        self.LF = lf.LF_Hinge()
     def __update_learning_rate__(self):
         #   Constant learning rate
         self.lr = self.base_lr
@@ -53,7 +53,7 @@ class myNet(object):
         dG1 = self.layers[1].backward(dG2, self.lr)
         dG0 = self.layers[0].backward(dG1, self.lr)
     def calc_loss(self, label):
-        return self.LF.loss(self.out, label)
+        return self.LF.forward(self.out, label)
     def epoch(self, dataset, labelset):
         #   X is a dozen of training data
         #   when the net go over a whole set of data
@@ -66,7 +66,6 @@ class myNet(object):
             self.loss = self.calc_loss(labelset[i])
             self.backward(dS, labelset[i])
         print "Loss is ", self.loss
-        print "dScore is ", dS, " label is ", labelset[i]
         self.__update_learning_rate__()
     def train(self, epoch, dataset, labelset):
         for i in range(epoch):
@@ -87,4 +86,4 @@ if __name__ == '__main__':
     #net.show_weights()
     #net.epoch(VecList, label)
     #net.show_weights()
-    net.train(10, VecList, label)
+    net.train(100, VecList, label)
