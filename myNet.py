@@ -37,7 +37,7 @@ class myNet(object):
         #   two class classifier
         self.layers.append(lyr.FullyConnectedLayer(2, 4))
     def __init_loss_function__(self):
-        self.LF = lf.LF_Softmax()
+        self.LF = lf.LF_Hinge()
     def __update_learning_rate__(self):
         #   Constant learning rate
         self.lr = self.base_lr
@@ -119,12 +119,12 @@ if __name__ == '__main__':
     print net.backward(np.array([3]))
     '''
     label, VecList = LoS.LoadMat("prob.mat")
-    net1 = myNet1(5, lr=0.1)
+    net1 = myNet1(5, lr=0.01)
     stat1 = net1.train(100, VecList, label)
     print stat1
 
     label, VecList = LoS.LoadMat("prob.mat")
-    net2 = myNet2(5, lr=0.1)
+    net2 = myNet2(5, lr=0.01)
     stat2 = net2.train(100, VecList, label)
     print stat2
 
