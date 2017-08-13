@@ -118,18 +118,21 @@ if __name__ == '__main__':
     print net.forward(np.array([1,2,3,4,5]))
     print net.backward(np.array([3]))
     '''
-    label, VecList = LoS.LoadMat("prob.mat")
+    epochs = 20
+
     net1 = myNet1(5, lr=0.01)
-    stat1 = net1.train(100, VecList, label)
+    net2 = myNet2(5, lr=0.01)
+
+    label, VecList = LoS.LoadMat("prob.mat")
+    stat1 = net1.train(epochs, VecList, label)
     print stat1
 
     label, VecList = LoS.LoadMat("prob.mat")
-    net2 = myNet2(5, lr=0.01)
-    stat2 = net2.train(100, VecList, label)
+    stat2 = net2.train(epochs, VecList, label)
     print stat2
 
-    plt.plot(range(100), stat1)
-    plt.plot(range(100), stat2)
+    plt.plot(range(epochs), stat1)
+    plt.plot(range(epochs), stat2)
 
     plt.title('loss descent')
     plt.xlabel('epoch')

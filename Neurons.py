@@ -18,7 +18,7 @@ import LossFunctions    as lf
 class Neuron(object):
     def __init__(self, fan_in):
         #   Initializing the weights
-        self.W = 0.2 * np.random.rand(fan_in)
+        self.W = 0.01 * np.random.rand(fan_in) + 0.2
         #   setting bias for neuron
         #   default is zero
         self.b = 0
@@ -49,13 +49,13 @@ class Neuron(object):
 
 class myNr1(Neuron):
     def __init_ActivationFunction__(self):
-        self.AF = ActivationFunctions.AF_tanh()
+        self.AF = ActivationFunctions.AF_leakyReLU()
     def __init_UpdateFunction__(self):
         self.UF = UpdateFunctions.UF_SGD()
 
 class myNr2(Neuron):
     def __init_ActivationFunction__(self):
-        self.AF = ActivationFunctions.AF_tanh()
+        self.AF = ActivationFunctions.AF_leakyReLU()
     def __init_UpdateFunction__(self):
         self.UF = UpdateFunctions.UF_Momentum()
 
